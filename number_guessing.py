@@ -4,31 +4,48 @@ import sys
 INTRO = """(´• ω •`) ♡ WELCOME TO THE NUMBER GUESSING GAME! (´ε｀ )♡
 You can guess a number from 1 to 10.
 Type 'hint' or 'h' for a hint.
+Type 'quit' or 'q' to quit.
 """
 
-def validate_input(input):
+def validate_input(userinput):
+    result = -1
     try:
-        num = int(input)
-        return num
+        num = int(userinput)
+        result = num
     except ValueError:
-        return -1
+        if userinput in ['quit', 'q', 'hint', 'h']:
+            result = userinput;
+    return result
 
-def check_win(actual, user):
-    if (actual == user):
-        return True
-    else:
+def check_result(actual, guess):
+    if actual == guess:
+        print(f"\nYou guessed the secret number! {rand}")
+        print("Would you like to play again? (y/n)")
+        again = input("> ")
+        if again not in ['yes', 'y']:
+            exit_game()
         return False
+    print("\nYou did not guess the number! Guess again!")
+    return True
+
+def exit_game():
+    print("\nThank you for playing!")
+    sys.exit()
 
 while True:
     print(INTRO)
+    PLAYING = True
+    GUESS = ""
     rand = random.randint(1, 10)
-    guess = validate_input(input("> "))
 
-    if guess <= 0 or guess >= 11:
-        print("Please guess a number from 1 to 10.")
-    else:
-        if check_win(rand, guess):
-            print(f"You guessed the secret number!, {rand}")
+    while PLAYING:
+        GUESS = validate_input(input("> "))
+        if GUESS in ['quit', 'q']:
+            print(f"\nThe secret number was {rand}!")
+            exit_game()
+        elif GUESS in ['hint', 'h']:
+            print("Hint!")
+        elif GUESS <= 0 or GUESS >= 11:
+            print("\nPlease guess a number from 1 to 10.")
         else:
-            print(f"You did not guess the number!, {rand}")
-    sys.exit()
+            PLAYING = check_result(rand, GUESS)
