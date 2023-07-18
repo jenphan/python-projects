@@ -9,12 +9,15 @@ Type 'quit' or 'q' to quit.
 
 def validate_input(guess):
     result = -1
-    try:
-        num = int(guess)
-        result = num
-    except ValueError:
-        if guess in ['quit', 'q']:
-            result = guess
+    if SCORE <= 0:
+        result = 'lose'
+    else:
+        try:
+            num = int(guess)
+            result = num
+        except ValueError:
+            if guess in ['quit', 'q']:
+                result = guess
     return result
 
 def give_hint(score):
@@ -27,15 +30,23 @@ def give_hint(score):
 
 def check_result():
     if rand == GUESS:
-        print(f"\nYou guessed the secret number: {rand}/100!")
+        print(f"\nYOU WIN! You guessed the secret number: {rand}/100!")
         print(f"Your FINAL SCORE is {SCORE}!")
-        print("Would you like to play again? (y/n)")
-        again = input("> ")
-        if again not in ['yes', 'y']:
-            exit_game()
+        repeat_game()
         return False
     print("\nYou did not guess the number! Guess again!")
     return True
+
+def lose_game():
+    print("\nYOU LOSE! Your final score has reached 0!")
+    print(f"The secret number was {rand}!")
+    repeat_game()
+
+def repeat_game():
+    print("Would you like to play again? (y/n)")
+    again = input("> ")
+    if again not in ['yes', 'y']:
+        exit_game()
 
 def exit_game():
     print("\nThank you for playing!")
@@ -53,7 +64,9 @@ while True:
     while PLAYING:
         
         GUESS = validate_input(input("> "))
-        if GUESS in ['quit', 'q']:
+        if GUESS == 'lose':
+            lose_game()
+        elif GUESS in ['quit', 'q']:
             print(f"\nThe secret number was {rand}!")
             exit_game()
         elif GUESS <= 0 or GUESS >= 11:
