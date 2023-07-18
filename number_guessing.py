@@ -54,13 +54,11 @@ def exit_game():
 
 while True:
     print(INTRO)
-
     PLAYING = True
     GUESS = ""
     SCORE = 100
-
     rand = random.randint(1, 10)
-
+    
     while PLAYING:
         GUESS = validate_input(input("> "))
         if GUESS == 'lose':
