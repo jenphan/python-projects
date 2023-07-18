@@ -30,8 +30,8 @@ def give_hint(score):
 
 def check_result():
     if rand == GUESS:
-        print(f"\nYOU WIN! You guessed the secret number: {rand}/100!")
-        print(f"Your FINAL SCORE is {SCORE}!")
+        print(f"\nYOU WIN! You guessed the secret number: {rand}!")
+        print(f"Your FINAL SCORE is {SCORE}/100!")
         repeat_game()
         return False
     print("\nYou did not guess the number! Guess again!")
@@ -62,7 +62,6 @@ while True:
     rand = random.randint(1, 10)
 
     while PLAYING:
-        
         GUESS = validate_input(input("> "))
         if GUESS == 'lose':
             lose_game()
