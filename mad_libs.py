@@ -1,4 +1,3 @@
-import random
 import sys
 
 INTRO = """(´• ω •`) ♡ WELCOME TO THE MADLIBS GENERATOR! (´ε｀ )♡
@@ -15,6 +14,9 @@ animal = []
 food = []
 loc = []
 game = []
+name = []
+color = []
+body = []
 
 def madlib1_input():
     print("Please type 5 adjectives (seperated by enter)")
@@ -56,33 +58,29 @@ def madlib1():
     print("I still don't know who it is!")
 
 def madlib2_input():
-    print("\nPlease enter an animal")
-    animal.append(input("> "))
+    animal.append(input("\nPlease enter an animal\n> "))
 
     print("\nPlease enter 6 nouns (seperated by enter)")
     for _ in range(6):
         noun.append(input("> "))
 
-    print("\nPlease enter 1 plural noun")
-    noun.append(input("> "))
+    noun.append(input("\nPlease enter a plural noun\n> "))
 
     print("\nPlease enter 8 verbs (seperated by enter)")
     for _ in range(8):
         verb.append(input("> "))
-    
-    print("\nPlease enter 1 verb ending in -ing")
-    verb.append(input("> "))
+
+    verb.append(input("\nPlease enter a verb ending in -ing\n> "))
 
     print("\nPlease enter 2 foods (seperated by enter)")
     for _ in range(2):
         food.append(input("> "))
-    
+
     print("\nPlease enter 2 locations (seperated by enter)")
     for _ in range(2):
         loc.append(input("> "))
-    
-    print("\nPlease enter 1 game")
-    game.append(input("> "))
+
+    game.append(input("\nPlease enter a game\n> "))
 
 def madlib2():
     madlib2_input()
@@ -104,11 +102,61 @@ def madlib2():
     print(f"So, it will ask for a {noun[0]}.")
     print(f"And chances are if you give it a {noun[0]}, it is going to want a {food[0]}.")
 
+def madlib3_input():
+    print("\nPlease enter 3 names/people (seperated by enter)")
+    for _ in range(3):
+        name.append(input("> "))
+
+    game.append(input("\nPlease enter a game\n> "))
+
+    print("\nPlease enter 2 plural nouns (seperated by enter)")
+    for _ in range(2):
+        noun.append(input("> "))
+
+    animal.append(input("\nPlease enter an animal\n> "))
+
+    print("\nPlease enter 5 verbs ending in -ing (seperated by enter)")
+    for _ in range(5):
+        verb.append(input("> "))
+
+    print("\nPlease enter 3 verbs (seperated by enter)")
+    for _ in range(3):
+        verb.append(input("> "))
+
+    adv.append(input("\nPlease enter an adverb\n> "))
+    noun.append(input("\nPlease enter a body party\n> "))
+
+    print("\nPlease enter 3 adjectives (seperated by enter)")
+    for _ in range(3):
+        adj.append(input("> "))
+
+    loc.append(input("\nPlease enter a location\n> "))
+    color.append(input("\nPlease enter a color\n> "))
+
+    print("\nPlease enter 2 foods (seperated by enter)")
+    for _ in range(2):
+        food.append(input("> "))
+
+def madlib3():
+    madlib3_input()
+    print("\nTHE BIRTHDAY PARTY MADLIB")
+    print(f"I'm {verb[0]} a {adv[0]} {adj[0]} party for my birthday.")
+    print(f"I'm {verb[1]} my best friends, like {name[0]}, {name[1]}, {name[2]}.")
+    print(f"The party will be at the {loc[0]} with {adj[1]} {noun[0]}" +\
+         "and {color[0]} {noun[1]} for decorations.")
+    print(f"First, we will {verb[5]} some snacks, like {food[0]} and {food[1]}.")
+    print(f"Then we will {verb[6]} some party games like {game[0]} " +\
+        "and {verb[7]} the {noun[2]} on the {animal[0]}.")
+    print(f"Then comes my favorite part: {verb[2]} Happy Birthday, +"\
+        "{verb[3]} presents, and {verb[4]} some {adj[2]}")
+
 while True:
     print(INTRO)
-    rand = random.randint(1,2)
-    if rand == 1:
+    picked = int(input("Would you like to try MadLib '1' or '2' or '3'?\n> "))
+    if picked == 1:
         madlib1()
-    elif rand == 2:
+    elif picked == 2:
         madlib2()
+    elif picked == 3:
+        madlib3()
     sys.exit()
