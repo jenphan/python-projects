@@ -109,7 +109,18 @@ def view_contacts(conn):
         print("\n")
 
 def delete_contact(conn):
-    print("Delete")
+    """delete a specified, existing contact"""
+    cur = conn.cursor()
+    print("\nPlease enter in the phone number you would like to delete.")
+    print("If you would like to delete the entire contacts list, type 'all'")
+    choice = input("> ")
+    
+    if choice == 'all':
+        cur.execute("DELETE FROM contacts")
+    else:
+        cur.execute("DELETE FROM contacts WHERE phone_number = ?", (choice,))
+    conn.commit()
+    print()
 
 def main():
     """initial set up for contacts database"""
@@ -123,12 +134,9 @@ def main():
                                 );"""
 
     conn = create_connection(DATABASE)
+    create_table(conn, contacts)
+    return conn
 
-    if conn is not None:
-        create_table(conn, contacts)
-        return conn
-    else:
-        print("Error! cannot create the database connection.")
 
 INTRO = """(´• ω •`) ♡ WELCOME TO YOUR PHONE CONTACTS! (´ε｀ )♡
 Type 'add' to add a new contact.
