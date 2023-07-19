@@ -9,6 +9,7 @@ just a collection of mini coding projects as i practice python
 **number_guessing**: _play a guessing game from 1 to 10_
 
 ## Authors
+Jennifer Phan
 
 ## Acknowledgments
 
