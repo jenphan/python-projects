@@ -114,7 +114,7 @@ def delete_contact(conn):
     print("\nPlease enter in the phone number you would like to delete.")
     print("If you would like to delete the entire contacts list, type 'all'")
     choice = input("> ")
-    
+
     if choice == 'all':
         cur.execute("DELETE FROM contacts")
     else:
