@@ -1,26 +1,36 @@
+"""Phone Contacts
+
+This program simulates a phone contacts app, allowing the user to add a new
+contact, edit an existing contact, view all contacts, or delete a contact.
+"""
+
 import sqlite3
 from sqlite3 import Error
 import sys
 
-conn = sqlite3.connect("./phone_contacts/main.db")
+DATABASE = r"./phone_contacts/main.db"
 
 def create_connection(db_file):
+    """returns a connection object to database file to interact with sqlite"""
+
     conn = None
     try:
         conn = sqlite3.connect(db_file)
         return conn
-    except Error as e:
-        print(e)
+    except Error as err:
+        print(err)
     return conn
 
 def create_table(conn, create_table_sql):
+    """creates contacts table if one does not already exist"""
     try:
-        c = conn.cursor()
-        c.execute(create_table_sql)
-    except Error as e:
-        print(e)
+        cur = conn.cursor()
+        cur.execute(create_table_sql)
+    except Error as err:
+        print(err)
 
-def create_contact(conn, contact):
+def add_contact(conn, contact):
+    """adds the new contact to the contacts table"""
     sql = ''' INSERT INTO contacts(phone_number,first_name,last_name,addr,email_addr)
                 VALUES(?,?,?,?,?)'''
     cur = conn.cursor()
@@ -28,33 +38,16 @@ def create_contact(conn, contact):
     conn.commit()
     return cur.lastrowid
 
-def main():
-    database = r"./phone_contacts/main.db"
-
-    sql_create_contacts_table = """ CREATE TABLE IF NOT EXISTS contacts (
-                                    [contact_id] INTEGER PRIMARY KEY UNIQUE,
-                                    [phone_number] NVARCHAR(10) NOT NULL UNIQUE,
-                                    [first_name] NVARCHAR(50) NOT NULL,
-                                    [last_name] NVARCHAR(50) NULL,
-                                    [addr] NVARCHAR(255) NULL,
-                                    [email_addr] NVARCHAR(255) NULL
-                                );"""
-    
-    conn = create_connection(database)
-
-    if conn is not None:
-        create_table(conn, sql_create_contacts_table)
-    else:
-        print("Error! cannot create the database connection.")
-
-def add_contact():
+def create_contact():
+    """creates a new valid contact from user input"""
+    conn = create_connection(DATABASE)
     valid = False
     print()
     while not valid:
         phone_number = input("Please enter in a valid phone number.\n> ")
-        c = conn.cursor()
-        c.execute('''SELECT * FROM contacts WHERE phone_number = ?''', phone_number)
-        check = c.fetchall()
+        curr = conn.cursor()
+        curr.execute('''SELECT * FROM contacts WHERE phone_number = ?''', phone_number)
+        check = curr.fetchall()
         if len(check) == 0:
             valid = True
         else:
@@ -68,15 +61,18 @@ def add_contact():
     with conn:
         try:
             new_contact = (phone_number, first_name, last_name, addr, email_addr)
-            create_contact(conn, new_contact)
+            add_contact(conn, new_contact)
         except Error:
             print("Please enter a unique phone number!")
+    conn.close()
 
 def view_contacts():
+    """print all contacts stored in contacts database"""
+    conn = create_connection(DATABASE)
     contact_query = '''SELECT * from contacts'''
-    c = conn.cursor()
-    c.execute(contact_query)
-    records = c.fetchall()
+    curr = conn.cursor()
+    curr.execute(contact_query)
+    records = curr.fetchall()
 
     print()
     print(f"YOU CURRENTLY HAVE {len(records)} CONTACTS SAVED.\n")
@@ -88,8 +84,26 @@ def view_contacts():
         print("Address:", row[4])
         print("Email Address:", row[5])
         print("\n")
+    conn.close()
 
-    c.close()
+def main():
+    """initial set up for contacts database"""
+    sql_create_contacts_table = """ CREATE TABLE IF NOT EXISTS contacts (
+                                    [contact_id] INTEGER PRIMARY KEY UNIQUE,
+                                    [phone_number] NVARCHAR(10) NOT NULL UNIQUE,
+                                    [first_name] NVARCHAR(50) NOT NULL,
+                                    [last_name] NVARCHAR(50) NULL,
+                                    [addr] NVARCHAR(255) NULL,
+                                    [email_addr] NVARCHAR(255) NULL
+                                );"""
+
+    conn = create_connection(DATABASE)
+
+    if conn is not None:
+        create_table(conn, sql_create_contacts_table)
+    else:
+        print("Error! cannot create the database connection.")
+    conn.close()
 
 INTRO = """(´• ω •`) ♡ WELCOME TO YOUR PHONE CONTACTS! (´ε｀ )♡
 Type 'add' to add a new contact.
@@ -103,16 +117,16 @@ if __name__ == "__main__":
     print(INTRO)
     main()
 
-    user_choice = ""
-    
-    while user_choice != "quit":
-        user_choice = input("Please select an option (add/edit/view/quit).\n> ")
-        if user_choice == "add":
-            add_contact()
-        elif user_choice == "edit":
+    CHOICE = ""
+    while CHOICE != "quit":
+        CHOICE = input("Please select an option (add/edit/view/quit).\n> ")
+        if CHOICE == "add":
+            create_contact()
+        elif CHOICE == "edit":
             print("Edit\n")
-        elif user_choice == "delete":
+        elif CHOICE == "delete":
             print("Delete\n")
-        elif user_choice == "view":
+        elif CHOICE == "view":
             view_contacts()
+
     sys.exit()
