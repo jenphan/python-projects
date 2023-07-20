@@ -13,7 +13,7 @@ def check_leapyear(year):
         print(f"{year} is NOT a leap year.\n")
 
 def validate_year(year):
-    if year.isnumeric():
+    if year.isdecimal():
         check_leapyear(int(year))
     else:
         print("Please use a valid numeric year.\n")
