@@ -23,12 +23,16 @@ Type 'quit' to stop the program.
 """
 
 if __name__ == "__main__":
-    print(INTRO)
-    while True:
-        NUM = input("> ")
-        if NUM == 'quit':
-            sys.exit()
-        else:
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1: ]:
+            NUM = arg
             validate_num(NUM)
-
-
+        sys.exit()
+    else:
+        print(INTRO)
+        while True:
+            NUM = input("> ")
+            if NUM == 'quit':
+                sys.exit()
+            else:
+                validate_num(NUM)
