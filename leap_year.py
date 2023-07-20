@@ -16,7 +16,7 @@ def validate_year(year):
     if year.isnumeric():
         check_leapyear(int(year))
     else:
-        print("Please use a valid numeric year.")
+        print("Please use a valid numeric year.\n")
 
 INTRO = """(´• ω •`) ♡ WELCOME TO THE LEAP YEAR CHECKER! (´ε｀ )♡
 Type a year to check whether it is a leap year or not.
@@ -24,10 +24,16 @@ Type 'quit' to stop the program.
 """
 
 if __name__ == "__main__":
-    print(INTRO)
-    while True:
-        YEAR = input("> ")
-        if YEAR == 'quit':
-            sys.exit()
-        else:
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1: ]:
+            YEAR = arg
             validate_year(YEAR)
+        sys.exit()
+    else:
+        print(INTRO)
+        while True:
+            YEAR = input("> ")
+            if YEAR == 'quit':
+                sys.exit()
+            else:
+                validate_year(YEAR)
