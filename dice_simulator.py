@@ -1,3 +1,9 @@
+"""Dice Simulator
+
+This script allows the user to roll a dice multiple times. The statistics of dice rolls will
+automatically printed upon exiting the script.
+"""
+
 import random
 import sys
 
