@@ -1,9 +1,6 @@
 """Countdown Timer
-
-This script allows the user to set a countdown timer for a specified amount of minutes and seconds.
-
-This file contains:
-    * main - main function
+This script allows the user to set a countdown timer
+for a specified amount of minutes and seconds.
 """
 
 import time
@@ -13,16 +10,9 @@ When prompted, type how many minutes and seconds you
 would like to set the countdown timer for.
 """
 
+
 def main(minutes, seconds):
-    """Gets user input and creates text-based timer
-
-    Args:
-        minutes (int): The amount of minutes
-        seconds (int): The amount of seconds
-
-    Returns:
-        none
-    """
+    """Gets user input and creates text-based timer"""
     print()
     total_secs = (minutes * 60) + seconds
     while total_secs:
@@ -33,6 +23,7 @@ def main(minutes, seconds):
         time.sleep(1)
         total_secs -= 1
     print("TIMER IS UP!")
+
 
 if __name__ == "__main__":
     print(INTRO)

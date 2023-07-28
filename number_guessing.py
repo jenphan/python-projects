@@ -1,3 +1,7 @@
+"""Number Guessing Game
+This script allows the user to guess a secret number from 1 to 10.
+"""
+
 import random
 import sys
 
@@ -7,67 +11,71 @@ Guessing incorrectly will reduce your score.
 Type 'quit' or 'q' to quit.
 """
 
-def validate_input(guess):
-    result = -1
-    if SCORE <= 0:
-        result = 'lose'
-    else:
-        try:
-            num = int(guess)
-            result = num
-        except ValueError:
-            if guess in ['quit', 'q']:
-                result = guess
-    return result
 
-def give_hint(score):
-    score -= 10
-    if GUESS > rand:
-        print("HINT: The secret number is lower than your guess.")
-    else:
-        print("HINT: The secret number is greater than your guess.")
-    return score
+class Game():
+    """A class used to represent a guessing game"""
+    def __init__(self):
+        """Constructs all necessary attributes for the guessing game object."""
+        self.secret = random.randint(1, 10)
+        self.score = 100
+        self.guess = ""
 
-def check_result():
-    if rand == GUESS:
-        print(f"\nYOU WIN! You guessed the secret number: {rand}!")
-        print(f"Your FINAL SCORE is {SCORE}/100!")
-        repeat_game()
+    def validate_guess(self, guess):
+        """Checks guess is either valid number or quit"""
+        if self.score <= 0:
+            self.lose_game()
+        else:
+            try:
+                self.guess = int(guess)
+                return True
+            except ValueError:
+                if guess in ['quit', 'q']:
+                    self.quit_game()
         return False
-    print("\nYou did not guess the number! Guess again!")
-    return True
 
-def lose_game():
-    print("\nYOU LOSE! Your final score has reached 0!")
-    print(f"The secret number was {rand}!")
-    repeat_game()
+    def set_guess(self, guess):
+        """Sets the value for guess"""
+        self.guess = guess
 
-def repeat_game():
-    print("Would you like to play again? (y/n)")
-    again = input("> ")
-    if again not in ['yes', 'y']:
-        exit_game()
-
-def exit_game():
-    print("\nThank you for playing!")
-    sys.exit()
-
-while True:
-    print(INTRO)
-    PLAYING = True
-    GUESS = ""
-    SCORE = 100
-    rand = random.randint(1, 10)
-    
-    while PLAYING:
-        GUESS = validate_input(input("> "))
-        if GUESS == 'lose':
-            lose_game()
-        elif GUESS in ['quit', 'q']:
-            print(f"\nThe secret number was {rand}!")
-            exit_game()
-        elif GUESS <= 0 or GUESS >= 11:
+    def check_result(self):
+        """Checks whether the guess is correct"""
+        if self.secret == self.guess:
+            print(f"\nYOU WIN! You guessed the secret number: {self.secret}!")
+            print(f"Your FINAL SCORE is {self.score}/100!")
+            sys.exit()
+        if self.guess <= 0 or self.guess >= 11:
             print("\nPlease guess a number from 1 to 10.")
         else:
-            PLAYING = check_result()
-            SCORE = give_hint(SCORE)
+            print("\nYou did not guess the number! Guess again!")
+            user.give_hint()
+
+    def give_hint(self):
+        """Generate and print a hint for incorrect answers"""
+        self.score -= 10
+        if user.guess > user.secret:
+            print("HINT: The secret number is lower than your guess.")
+        else:
+            print("HINT: The secret number is greater than your guess.")
+
+    def lose_game(self):
+        """Print the lose game message"""
+        print("\nYOU LOSE! Your final score has reached 0!")
+        print(f"The secret number was {self.secret}!")
+        sys.exit()
+
+    def quit_game(self):
+        """Print and exit the game"""
+        print("\nThank you for playing!")
+        sys.exit()
+
+
+if __name__ == "__main__":
+    print(INTRO)
+    user = Game()
+
+    while True:
+        VALID = user.validate_guess(input("> "))
+        if VALID:
+            user.check_result()
+        else:
+            print("\nPlease guess a number from 1 to 10.")

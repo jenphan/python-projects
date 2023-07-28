@@ -1,5 +1,4 @@
 """Hangman Game
-
 This script allows the user to play a game of hangman.
 """
 
@@ -10,18 +9,20 @@ import hm_info
 # hangman ascii art and word bank taken from https://github.com/chrishorton
 # https://gist.github.com/chrishorton/8510732aa9a80a03c829b09f12e20d9c
 
+
 class Hangman():
     """A class used to represent a game of hangman"""
     def __init__(self):
-        """Constructs all the necessary attributes for the hangman object."""
+        """Constructs all the necessary attributes for the hangman object"""
         self.secret = random.choice(hm_info.WORDS)
         self.attempts = 0
         self.blanks = []
         self.history = []
         for _ in range(len(self.secret)):
             self.blanks.append(False)
+
     def check_guess(self, guess, start):
-        """Sets true if guessed letter appears in the secret word."""
+        """Sets true if guessed letter appears in the secret word"""
         if guess == self.secret:
             for num, value in enumerate(self.blanks):
                 value[num] = True
@@ -33,6 +34,7 @@ class Hangman():
                     self.blanks[i] = True
         self.print_results()
         self.history.append(GUESS)
+
     def incorrect_guess(self, guess):
         """Checks whether maximum incorrect guesses (6) has been reachde"""
         self.attempts += 1
@@ -42,16 +44,17 @@ class Hangman():
             print("You have run out of attempts!")
             print(f"The secret word was {self.secret}!\n")
             sys.exit()
+
     def print_results(self):
         """Print a hangman visual"""
-        print(hm_info.HANGMAN[self.attempts])
-        print("\n")
+        print(f"{hm_info.HANGMAN[self.attempts]}\n")
         for num, value in enumerate(self.blanks):
             if value:
                 print(self.secret[num], end=" ")
             else:
                 print("_", end=" ")
         print("\n")
+
 
 if __name__ == "__main__":
     print(hm_info.INTRO)
@@ -70,7 +73,7 @@ if __name__ == "__main__":
             user.check_guess(GUESS, START)
 
         if all(user.blanks):
-            print(f"YOU WON! You correctly guessed the secret word: {user.secret}!")
+            print(f"YOU WON! You guessed the secret word: {user.secret}!")
             sys.exit()
         else:
             GUESS = input("> ")

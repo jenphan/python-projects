@@ -1,43 +1,51 @@
 """Dice Simulator
-
-This script allows the user to roll a dice multiple times. The statistics of dice rolls will
-automatically printed upon exiting the script.
+This script allows the user to roll a dice multiple times. The statistics
+of dice rolls will automatically printed upon exiting the script.
 """
 
 import random
 import sys
 
-dice = [1, 2, 3, 4, 5, 6]
-history = []
+INTRO = """(´• ω •`) ♡ WELCOME TO THE DICE ROLLING SIMULATOR! (´ε｀ )♡
+When prompted, type 'yes' or 'y' to roll.
+Type 'stats' or 's' to view your roll statistics.
+Type 'no' or 'n' to stop the program.
+"""
 
-def intro_msg():
-    print("(´• ω •`) ♡ WELCOME TO THE DICE ROLLING SIMULATOR! (´ε｀ )♡")
-    print("type 'yes' or 'y' to roll.")
 
-def roll_dice():
-    roll = random.choice(dice)
-    history.append(roll)
-    print(f"> You rolled a {roll}. (♡˙︶˙♡)")
+class Dice():
+    """A class used to represent a dice"""
+    def __init__(self):
+        """Constructs all the necessary attributes for the dice object"""
+        self.dice = [1, 2, 3, 4, 5, 6]
+        self.stats = [0] * 6
+        self.total = 0
 
-def statistics(rolled):
-    stats  = [0] * 6
+    def roll(self):
+        """Generates and prints a number from 1 to 6"""
+        value = random.choice(self.dice)
+        self.stats[value - 1] += 1
+        self.total += 1
+        print(f"> You rolled a {value}. (♡˙︶˙♡)")
 
-    for num in rolled:
-        stats[num - 1] += 1
+    def statistics(self):
+        """Prints amount of times a side of the dice is rolled"""
+        for side in self.dice:
+            print(f"> {side}'s Rolled: {self.stats[side - 1]}/{self.total}")
+        print()
 
-    total = sum(stats)
 
-    print("\n｡ﾟ( ﾟ^∀^ﾟ)ﾟ｡Thank you for playing!")
-    for side in dice:
-        print(f"> {side}'s Rolled: {stats[side - 1]}/{total}")
-
-intro_msg()
-
-while True:
-    PLAYING = input("\nRoll the dice? ")
-
-    if PLAYING in ["yes", "y"]:
-        roll_dice()
-    else:
-        statistics(history)
-        sys.exit()
+if __name__ == "__main__":
+    print(INTRO)
+    user = Dice()
+    while True:
+        INPUT = input("\nRoll the dice? ")
+        if INPUT in ["yes", "y"]:
+            user.roll()
+        elif INPUT in ["stats", "s", "no", "n"]:
+            user.statistics()
+            if INPUT in ["no", "n"]:
+                print("\n｡ﾟ( ﾟ^∀^ﾟ)ﾟ｡Thank you for playing!")
+                sys.exit()
+        else:
+            print("Please select a valid option.")

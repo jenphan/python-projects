@@ -1,10 +1,16 @@
+"""Rock Paper Scissors Game
+This script allows the user to play rock, paper, scissors.
+"""
+
 import sys
 import random
 
 CHOICES = ['rock', 'paper', 'scissors']
 SCORE = [0, 0, 0]
 
+
 def determine_winner(comp, user):
+    """Calculate whether the user or computer is the winner"""
     result = 1
     if user == comp:
         result = -1
@@ -12,7 +18,9 @@ def determine_winner(comp, user):
         result = 0
     return result
 
+
 def print_winner(result, comp, score):
+    """Print the winner result"""
     print(f"The computer picked: {comp}.")
     match result:
         case -1:
@@ -26,10 +34,13 @@ def print_winner(result, comp, score):
             print("YOU WIN!")
     return score
 
+
 def print_score(score):
+    """Print the total score"""
     print(f"\nWINS: {score[0]}")
     print(f"LOSSES: {score[1]}")
     print(f"TIES: {score[2]}\n")
+
 
 INTRO = """(´• ω •`) ♡ WELCOME TO ROCK PAPER SCISSORS! (´ε｀ )♡
 Type 'rock', 'paper', or 'scissors' to play.
@@ -48,5 +59,5 @@ while True:
     else:
         COMPID = CHOICES.index(COMPUTER)
         USERID = CHOICES.index(USER)
-        RESULT= determine_winner(COMPID, USERID)
+        RESULT = determine_winner(COMPID, USERID)
         SCORE = print_winner(RESULT, COMPUTER, SCORE)

@@ -1,27 +1,25 @@
+"""Random Wikipedia Page Generator
+This script generates a random wiki page for the user, who can then
+decide whether they would like to read it or not.
+"""
+
 import sys
 import wikipedia
 
-# print(wikipedia.summary("BTS", auto_suggest=False, sentences=2))
-
 INTRO = """(´• ω •`) ♡ WELCOME TO THE RANDOM WIKI PAGE GENERATOR! (´ε｀ )♡
 This program will find a random wikipedia.
-If you would like to read it, type 'yes'.
+If you would like to read it, type 'yes' or 'y'.
 For a different article, type 'no'.
-Type 'quit' to stop the program.
+Type 'quit' or 'q' to stop the program.
 """
 
-print(INTRO)
-
-while True:
-    result = wikipedia.random()
-
-    CHOICE = input(f"Would you like to read about {result}? ")
-    if CHOICE == 'yes':
-        page = wikipedia.page(result)
-        print()
-        print(page.title)
-        print(page.content)
-        print()
-
-    elif CHOICE == 'quit':
-        sys.exit()
+if __name__ == "__main__":
+    print(INTRO)
+    while True:
+        result = wikipedia.random()
+        CHOICE = input(f"Would you like to read about {result}? ")
+        if CHOICE in ['yes', 'y']:
+            page = wikipedia.page(result)
+            print(f"\n{page.title}\n{page.content}\n")
+        elif CHOICE == ['quit', 'q']:
+            sys.exit()
